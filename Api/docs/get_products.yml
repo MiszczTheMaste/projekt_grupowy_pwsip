@@ -1,0 +1,72 @@
+openapi: "3.0.1"
+info:
+  version: "1.0.0"
+  title: "Api sklep"
+  
+tags:
+- name: "products"
+  description: "Informacje o produktach"
+- name: "users"
+  description: "Dane użytkowników"
+- name: "orders"
+  description: "Informacje o zamówieniach"
+
+paths:
+  /api/products/get_products:
+     get:
+        tags:
+        - "products"
+        summary: "Zwróć wszystkie produkty"
+        responses:
+          "200":
+            description: "successful operation"
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/ProductCollection"
+          "404":
+            description: "Invalid status value"
+  /api/products/get_product/{productId}:
+   get:
+      tags:
+      - "products"
+      summary: "Zwróć produkt o danym o id"
+      parameters:
+        - in: path
+          name: productId
+          schema:
+            type: "integer"
+          required: true
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "404":
+          description: "Invalid status value"
+          
+components:
+  schemas:
+    Product:
+      type: "object"
+      required:
+      - "id"
+      - "name"
+      - "price"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+          example: 1
+        name:
+          type: "string"
+          example: "Piwo żubr"
+        price:
+          type: "string"
+          example: "Piwo żubr"
+    ProductCollection:
+      type: "array"
+      items:
+          $ref: "#/components/schemas/Product"

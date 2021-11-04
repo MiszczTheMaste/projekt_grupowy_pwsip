@@ -1,0 +1,4 @@
+get_products:
+    path: /api/get_products
+    controller: get_products_action
+    methods: [GET]
