@@ -3,7 +3,7 @@ namespace App\Products\ValueObjects;
 
 use Exception;
 
-class Price extends abstractValueObject
+class Price extends AbstractValueObject
 {
     protected function validate($value): void
     {

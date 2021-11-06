@@ -26,6 +26,8 @@ services:
 
     get_products_repository:
         class: App\Products\Repository\ProductsRepository
+        arguments:
+            $connection: '@doctrine.dbal.default_connection'
             
     get_products_handler:
         class: App\Products\Handler\GetProductsHandler

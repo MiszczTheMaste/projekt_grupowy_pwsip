@@ -10,7 +10,8 @@ class ProductFactory
         return new Product(
             $array['id'],
             $array['name'],
-            $array['price']
+            $array['price'],
+            $array['rating']
         );
     }
 }
