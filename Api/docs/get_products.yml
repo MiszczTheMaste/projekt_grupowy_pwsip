@@ -12,7 +12,7 @@ tags:
   description: "Informacje o zamówieniach"
 
 paths:
-  /api/products/get_products:
+  /api/products/get_product_collection:
      get:
         tags:
         - "products"
@@ -65,7 +65,7 @@ components:
           example: "Piwo żubr"
         price:
           type: "string"
-          example: "Piwo żubr"
+          example: "2.20"
     ProductCollection:
       type: "array"
       items:

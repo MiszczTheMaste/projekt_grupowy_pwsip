@@ -4,13 +4,13 @@ namespace App\Products\Controller;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use App\Products\Handler\GetProductsHandler;
+use App\Products\Handler\GetProductCollectionHandler;
 
-class GetProductsAction
+class GetProductCollectionAction
 {
-    private GetProductsHandler $handler;
+    private GetProductCollectionHandler $handler;
 
-    public function __construct(GetProductsHandler $handler)
+    public function __construct(GetProductCollectionHandler $handler)
     {
         $this->handler = $handler;
     }

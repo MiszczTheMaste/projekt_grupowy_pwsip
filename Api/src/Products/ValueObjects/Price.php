@@ -8,7 +8,7 @@ class Price extends AbstractValueObject
     protected function validate($value): void
     {
         if($value < 0){
-            throw new Exception("Product name must be unsigned value");
+            throw new Exception("Price must be unsigned value");
         }
     }
 }
