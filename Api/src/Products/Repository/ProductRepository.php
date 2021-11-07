@@ -7,6 +7,7 @@ use App\Products\DTO\ProductCollection;
 use App\Products\Factory\ProductCollectionFactory;
 use App\Products\Factory\ProductFactory;
 use Doctrine\DBAL\Connection;
+use Doctrine\ORM\Query\Expr\GroupBy;
 
 class ProductRepository implements ProductRepositoryInterface
 {
@@ -32,7 +33,8 @@ class ProductRepository implements ProductRepositoryInterface
             ->from('products', 'p')
             ->leftJoin('p', 'opinions', 'o', 'o.product_id = p.id')
             ->leftJoin('p', 'categories', 'c', 'c.id = p.category_id')
-            ->leftJoin('p', 'stock', 's', 'p.id = s.product_id AND s.amount_left > 0');
+            ->leftJoin('p', 'stock', 's', 'p.id = s.product_id AND s.amount_left > 0')
+            ->GroupBy('p.id');
         $query->executeQuery();
         $rawResult = $query->fetchAllAssociative();
         return ProductCollectionFactory::CreateFromArray($rawResult);
