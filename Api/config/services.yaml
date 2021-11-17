@@ -30,7 +30,7 @@ services:
             $connection: '@doctrine.dbal.default_connection'
             
     get_product_collection_handler:
-        class: App\Products\Handler\GetProductCollectionHandler
+        class: App\Products\QueryHandler\GetProductCollectionHandler
         arguments:
             $repository: '@product_repository'
 
@@ -41,7 +41,7 @@ services:
             $handler: '@get_product_collection_handler'
 
     get_product_handler:
-        class: App\Products\Handler\GetProductHandler
+        class: App\Products\QueryHandler\GetProductHandler
         arguments:
             $repository: '@product_repository'
       
@@ -52,7 +52,7 @@ services:
             $handler: '@get_product_handler'  
             
     put_product_handler:
-        class: App\Products\Handler\PutProductHandler
+        class: App\Products\CommandHandler\PutProductHandler
         arguments:
             $repository: '@product_repository'
       

@@ -1,5 +1,5 @@
 <?php
-namespace App\Products\Handler;
+namespace App\Products\CommandHandler;
 
 use App\Products\DTO\Product;
 use App\Products\Factory\ProductFactory;

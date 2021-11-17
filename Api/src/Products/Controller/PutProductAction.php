@@ -4,7 +4,7 @@ namespace App\Products\Controller;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use App\Products\Handler\PutProductHandler;
+use App\Products\CommandHandler\PutProductHandler;
 use Symfony\Component\HttpFoundation\Request;
 
 class PutProductAction

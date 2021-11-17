@@ -1,20 +1,20 @@
 <?php
-namespace App\Products\Handler;
+namespace App\Products\QueryHandler;
 
-use App\Products\DTO\Product;
+use App\Products\DTO\ProductCollection;
 use App\Products\Repository\ProductRepositoryInterface;
 
-class GetProductHandler
+class GetProductCollectionHandler
 {
     private ProductRepositoryInterface $repository;
-
+    
     public function __construct(ProductRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
 
-    public function handle($productId): Product
+    public function handle():ProductCollection
     {
-        return $this->repository->GetProductById($productId);
+        return $this->repository->GetAllProducts();
     }
 }

@@ -4,7 +4,7 @@ namespace App\Products\Controller;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use App\Products\Handler\GetProductHandler;
+use App\Products\QueryHandler\GetProductHandler;
 
 class GetProductAction
 {
