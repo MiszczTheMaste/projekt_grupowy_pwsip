@@ -12,7 +12,5 @@ put_product:
     path: /api/products/put_product
     controller: put_product_action
     methods: [PUT]
-login:
-    path: /api/login
-    controller: login_controller::login
-    methods: [POST]
+login_check:
+    path: /api/login_check
