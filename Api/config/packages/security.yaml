@@ -15,19 +15,25 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
+        refresh:
+            pattern: ^/api/auth/refresh-token
+            stateless: true
+
         login:
-            pattern: ^/api/login
+            pattern: ^/api/auth
             stateless: true
             json_login:
-                check_path: /api/login_check
+                check_path: /api/auth/token
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
+
         api:
             pattern: ^/api
             stateless: true
             guard:
                 authenticators:
                     - lexik_jwt_authentication.jwt_token_authenticator
+
         main:
             lazy: true
             provider: app_user_provider
@@ -35,4 +41,4 @@ security:
     access_control:
        - { path: '^/api/products/put_product', roles: IS_AUTHENTICATED_FULLY }
        - { path: '^/api/products', roles: PUBLIC_ACCESS }
-       - { path: '^/api/login', roles: IS_AUTHENTICATED_ANONYMOUSLY }
+       - { path: '^/api/auth', roles: PUBLIC_ACCESS }
