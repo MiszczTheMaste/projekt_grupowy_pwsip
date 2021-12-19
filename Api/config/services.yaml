@@ -62,6 +62,5 @@ services:
         arguments:
             $handler: '@put_product_handler'
 
-    login_controller:
+    App\Auth\Controller\RegistrationAction:
         public: true
-        class: App\Security\Controller\LoginController

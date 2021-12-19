@@ -19,3 +19,7 @@ gesdinet_jwt_refresh_token:
     path: /api/auth/refresh-token
     controller: gesdinet.jwtrefreshtoken::refresh
     methods: [POST]
+register:
+    path: /api/auth/register
+    controller: App\Auth\Controller\RegistrationAction
+    methods: [POST]
