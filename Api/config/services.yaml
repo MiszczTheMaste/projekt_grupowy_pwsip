@@ -24,40 +24,41 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    product_repository:
-        class: App\Products\Repository\ProductRepository
+    App\Products\Repository\ProductRepository:
         arguments:
             $connection: '@doctrine.dbal.default_connection'
             
-    get_product_collection_handler:
-        class: App\Products\QueryHandler\GetProductCollectionHandler
+    App\Products\QueryHandler\GetProductCollectionHandler:
         arguments:
-            $repository: '@product_repository'
+            $repository: '@App\Products\Repository\ProductRepository'
 
-    get_product_collection_action:
+    App\Products\Controller\GetProductCollectionAction:
         public: true
         class: App\Products\Controller\GetProductCollectionAction
         arguments:
-            $handler: '@get_product_collection_handler'
+            $handler: '@App\Products\QueryHandler\GetProductHandler'
 
-    get_product_handler:
-        class: App\Products\QueryHandler\GetProductHandler
+    App\Products\QueryHandler\GetProductHandler:
         arguments:
-            $repository: '@product_repository'
+            $repository: '@App\Products\Repository\ProductRepository'
       
-    get_product_action:
+    App\Products\Controller\GetProductAction:
         public: true
-        class: App\Products\Controller\GetProductAction
         arguments:
-            $handler: '@get_product_handler'  
+            $handler: '@App\Products\Repository\ProductRepository'  
             
-    put_product_handler:
-        class: App\Products\CommandHandler\PutProductHandler
+    App\Products\CommandHandler\PutProductHandler:
         arguments:
-            $repository: '@product_repository'
+            $repository: '@App\Products\Repository\ProductRepository'
       
-    put_product_action:
+    App\Products\Controller\PutProductAction:
         public: true
-        class: App\Products\Controller\PutProductAction
         arguments:
-            $handler: '@put_product_handler'
+            $handler: '@App\Products\CommandHandler\PutProductHandler'
+
+    App\Auth\Controller\RegistrationAction:
+        public: true
+        arguments:
+            $handler: '@App\Auth\CommandHandler\RegistrationHandler'   
+
+    App\Auth\CommandHandler\RegistrationHandler:

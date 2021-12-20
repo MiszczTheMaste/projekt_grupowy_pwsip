@@ -1,14 +1,25 @@
 get_product_collection:
-    path: /api/get_product_collection
+    path: /api/products/get-product-collection
     controller: get_product_collection_action
     methods: [GET]
 get_product:
-    path: /api/get_product/{id}
-    controller: get_product_action
+    path: /api/products/get-product/{id}
+    controller: App\Products\Controller\GetProductAction
     requirements:
         id: '\d+'
     methods: [GET]
 put_product:
-    path: /api/put_product
-    controller: put_product_action
-    methods: [PUT]
+    path: /api/products/put-product
+    controller: App\Products\Controller\PutProductAction
+    methods: [POST]
+generate_jwt_token:
+    path: /api/auth/token
+    methods: [POST]
+gesdinet_jwt_refresh_token:
+    path: /api/auth/refresh-token
+    controller: gesdinet.jwtrefreshtoken::refresh
+    methods: [POST]
+register:
+    path: /api/auth/register
+    controller: App\Auth\Controller\RegistrationAction
+    methods: [POST]

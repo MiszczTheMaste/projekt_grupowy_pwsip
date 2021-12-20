@@ -1,0 +1,86 @@
+openapi: "3.0.1"
+info:
+  version: "1.0.0"
+  title: "Api sklep autoryzacja"
+  
+tags:
+- name: "JWT login"
+  description: "Logowanie się istniejącym loginem"
+  
+paths:
+  /api/auth/token:
+     post:
+        tags:
+        - "Auth"
+        summary: "Wygeneruj JWT dla danego hasła i loginu"
+        parameters:
+        - in: query
+          name: refresh_token
+          schema:
+            $ref: "#/components/schemas/dane_logowania"
+          description: refresh token JWT zwrócony przy jego generacji
+        responses:
+          200:
+            description: "successful operation"
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/jwt"
+          default:
+            description: "Something went wrong"
+  /api/auth/refresh-token:
+   post:
+      tags:
+      - "Auth"
+      summary: "Odśwież dany JWT"
+      parameters:
+        - in: query
+          name: refresh_token
+          schema:
+            $ref: "#/components/schemas/refresh_token"
+          description: refresh token JWT zwrócony przy jego generacji
+      responses:
+        200:
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/jwt"
+        default:
+          description: "Something went wrong"
+          
+components:
+  schemas:
+    dane_logowania:
+      type: "object"
+      required:
+      - "login"
+      - "password"
+      properties:
+        login:
+          type: "string"
+          example: "admin"
+        password:
+          type: "string"
+          example: "admin1"
+    refresh_token:
+      type: "object"
+      required:
+      - "refresh_token"
+      properties:
+        refresh_token:
+          type: "string"
+          example: "8eb8514dd45d480f42f1d2602baba17266ed238991181a40bed5683661fa2afcd6ffb35638bd0e943346aeec12ec34b08f8a169ab7fb7ef2684e91760936742b"
+    jwt:
+      type: "object"
+      required:
+      - "token"
+      - "refresh_token"
+      properties:
+        token:
+          type: "string"
+          example: "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2Mzk5NTM0MjEsImV4cCI6MTYzOTk1NzAyMSwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoiYWRtaW4ifQ.WAoBR45WLf6Co0Zp1FZS1oKG9MDEOH__Rthlmk6oJ2LMe60wnI5DJuOUA7aljDZBmJg45l2kRS-HiasuPjSBskw52s80rOL7vlS8JqmGe-eOX9KV2EME1g57o2IavneupzqSPNzgaQ9ZDS7LJP2-6SpC_uoXtCut4DUoqrYm29O3Uu0dKzhOJ2oRzJEoSMzhdz6QEvJxtNlHf-BateIjoypU3tx1zJXWj2zBoZakuAA0Jzz6BA7ccDc-xvG18i7USr50mfBSeMb5tAqD5a0ZLKAL3AbyjjGBCk55jTHlpdb2CM5kJxFf_J_NaVmFRnO-hgFXi1FfrQAvzx1cuACq2c57mwHFRXQK3_LL7hsHmy1g9JqWApzb3FtWQClZ4c4GY-ZjZiSqgsONdHeP3Qfy-NoVsOr-3F5DLK-7KJ-BYPOO4cytvLECyB4GWJzxp94-rygHdFP0XgFElSrgQ4vWq18_fAR4WUqbT9zHHTEYHeya9ig4dCr1PNJ5tqNyXbuinrQiSjoXsXqhNJm6Th3_AlHimZ8IQWXqpfREUDSHsxbdstzrWt2DfzDo3tCBgZ5UHiZtRsxn1PbiJmUeWYPw6bfrz9updHemyka2SubKvs2v_fEV-pvZbDi41W9feoAqeBYxStwctxEg5AGutNJmPkgXNNZiv1phsXzQewX6KB8"
+        refresh_token:
+          type: "string"
+          example: "8eb8514dd45d480f42f1d2602baba17266ed238991181a40bed5683661fa2afcd6ffb35638bd0e943346aeec12ec34b08f8a169ab7fb7ef2684e91760936742b"
+
