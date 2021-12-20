@@ -1,5 +1,5 @@
 <?php
-namespace App\Products\ValueObjects;
+namespace App\ValueObject;
 
 use Exception;
 

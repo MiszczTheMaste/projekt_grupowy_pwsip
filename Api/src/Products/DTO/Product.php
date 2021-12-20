@@ -1,11 +1,11 @@
 <?php
 namespace App\Products\DTO;
 
-use App\Products\ValueObjects\Name;
-use App\Products\ValueObjects\Price;
-use App\Products\ValueObjects\Rating;
-use App\Products\ValueObjects\ProductId;
-use App\Products\ValueObjects\Stock;
+use App\ValueObject\Name;
+use App\ValueObject\Price;
+use App\ValueObject\Rating;
+use App\ValueObject\ProductId;
+use App\ValueObject\Stock;
 
 class Product implements \JsonSerializable
 {

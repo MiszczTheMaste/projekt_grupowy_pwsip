@@ -1,6 +1,6 @@
 get_product_collection:
     path: /api/products/get-product-collection
-    controller: get_product_collection_action
+    controller: App\Products\Controller\GetProductCollectionAction
     methods: [GET]
 get_product:
     path: /api/products/get-product/{id}

@@ -36,7 +36,7 @@ services:
         public: true
         class: App\Products\Controller\GetProductCollectionAction
         arguments:
-            $handler: '@App\Products\QueryHandler\GetProductHandler'
+            $handler: '@App\Products\QueryHandler\GetProductCollectionHandler'
 
     App\Products\QueryHandler\GetProductHandler:
         arguments:
@@ -45,7 +45,7 @@ services:
     App\Products\Controller\GetProductAction:
         public: true
         arguments:
-            $handler: '@App\Products\Repository\ProductRepository'  
+            $handler: '@App\Products\QueryHandler\GetProductHandler'  
             
     App\Products\CommandHandler\PutProductHandler:
         arguments:
