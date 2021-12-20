@@ -4,13 +4,13 @@ get_product_collection:
     methods: [GET]
 get_product:
     path: /api/products/get-product/{id}
-    controller: get_product_action
+    controller: App\Products\Controller\GetProductAction
     requirements:
         id: '\d+'
     methods: [GET]
 put_product:
     path: /api/products/put-product
-    controller: put_product_action
+    controller: App\Products\Controller\PutProductAction
     methods: [POST]
 generate_jwt_token:
     path: /api/auth/token
