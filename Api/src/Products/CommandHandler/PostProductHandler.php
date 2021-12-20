@@ -1,12 +1,11 @@
 <?php
 namespace App\Products\CommandHandler;
 
-use App\Products\DTO\Product;
 use App\Products\Factory\ProductFactory;
 use App\Products\Repository\ProductRepositoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class PutProductHandler
+class PostProductHandler
 {
     private ProductRepositoryInterface $repository;
 

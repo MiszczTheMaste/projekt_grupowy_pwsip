@@ -8,9 +8,9 @@ get_product:
     requirements:
         id: '\d+'
     methods: [GET]
-put_product:
-    path: /api/products/put-product
-    controller: App\Products\Controller\PutProductAction
+post_product:
+    path: /api/products/post-product
+    controller: App\Products\Controller\PostProductAction
     methods: [POST]
 generate_jwt_token:
     path: /api/auth/token
@@ -23,3 +23,11 @@ register:
     path: /api/auth/register
     controller: App\Auth\Controller\RegistrationAction
     methods: [POST]
+get_categories:
+    path: /api/auth/register
+    controller: App\Auth\Controller\RegistrationAction
+    methods: [GET]
+post_categories:
+    path: /api/auth/register
+    controller: App\Auth\Controller\RegistrationAction
+    methods: [GET]

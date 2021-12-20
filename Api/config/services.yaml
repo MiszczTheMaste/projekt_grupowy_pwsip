@@ -47,14 +47,14 @@ services:
         arguments:
             $handler: '@App\Products\QueryHandler\GetProductHandler'  
             
-    App\Products\CommandHandler\PutProductHandler:
+    App\Products\CommandHandler\PostProductHandler:
         arguments:
             $repository: '@App\Products\Repository\ProductRepository'
       
-    App\Products\Controller\PutProductAction:
+    App\Products\Controller\PostProductAction:
         public: true
         arguments:
-            $handler: '@App\Products\CommandHandler\PutProductHandler'
+            $handler: '@App\Products\CommandHandler\PostProductHandler'
 
     App\Auth\Controller\RegistrationAction:
         public: true

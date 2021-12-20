@@ -4,14 +4,14 @@ namespace App\Products\Controller;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use App\Products\CommandHandler\PutProductHandler;
+use App\Products\CommandHandler\PostProductHandler;
 use Symfony\Component\HttpFoundation\Request;
 
-class PutProductAction
+class PostProductAction
 {
-    private PutProductHandler $handler;
+    private PostProductHandler $handler;
 
-    public function __construct(PutProductHandler $handler)
+    public function __construct(PostProductHandler $handler)
     {
         $this->handler = $handler;
     }
