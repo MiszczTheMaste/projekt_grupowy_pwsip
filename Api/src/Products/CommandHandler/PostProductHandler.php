@@ -20,7 +20,7 @@ class PostProductHandler
         $newProduct = ProductFactory::CreateFromArray([
             'id' => null,
             'name' => $data['name'],
-            'category' => $data['category'],
+            'categoryId' => $data['categoryId'],
             'price' => $data['price'],
             'rating' => null,
             'stock' => null

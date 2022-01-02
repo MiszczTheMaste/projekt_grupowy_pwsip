@@ -1,0 +1,89 @@
+openapi: "3.0.1"
+info:
+  version: "1.0.0"
+  title: "Api sklep - kategorie"
+  
+tags:
+- name: "categories"
+  description: "Informacje o kategoriach"
+
+paths:
+  /api/category/all/{visible}:
+     get:
+        tags:
+        - "categories"
+        summary: "Zwróć wszystkie kategorie z uwzględnieniem ich widzialności"
+        parameters:
+        - in: path
+          name: visible
+          schema:
+            type: "integer"
+          required: true
+        responses:
+          "200":
+            description: "Ok"
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/CategoryCollection"
+          "404":
+            description: "Not found"
+  /api/category/{id}:
+   get:
+      tags:
+      - "categories"
+      summary: "Zwróć informację o danej kategorii"
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: "integer"
+          required: true
+      responses:
+        "200":
+          description: "Ok"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Category"
+        "404":
+          description: "Not found"
+  /api/category:
+   post:
+      tags:
+      - "categories"
+      summary: "Dodaj kategorię"
+      parameters:
+        - in: query
+          name: product
+          schema:
+            $ref: "#/components/schemas/Category"
+      responses:
+        "200":
+          description: "Ok"
+        "404":
+          description: "Invalid status value"
+components:
+  schemas:
+    Category:
+      type: "object"
+      required:
+      - "id"
+      - "name"
+      - "price"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+          nullable: true
+          example: 1
+        name:
+          type: "string"
+          example: "Karty graficzne"
+        visible:
+          type: "boolean"
+          example: true
+    CategoryCollection:
+      type: "array"
+      items:
+          $ref: "#/components/schemas/Category"

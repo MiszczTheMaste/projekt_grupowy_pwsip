@@ -7,7 +7,7 @@ class Username extends AbstractValueObject
 {
     protected function validate($value): void
     {
-        if($value = ""){
+        if($value == ""){
             throw new UsernameCannotBeEmpty;
         }
     }

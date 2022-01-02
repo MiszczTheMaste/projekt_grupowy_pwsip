@@ -3,7 +3,7 @@ namespace App\ValueObject;
 
 use App\Exception\CouldNotValidateUnsignedInt;
 
-class ProductId extends AbstractValueObject
+class CategoryId extends AbstractValueObject
 {
     protected function validate($value): void
     {

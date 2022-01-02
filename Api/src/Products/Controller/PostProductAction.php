@@ -19,9 +19,9 @@ class PostProductAction
     public function __invoke(Request $request):JsonResponse
     {
         if($this->handler->handle($request)){
-            return new JsonResponse('{"Product put"}', Response::HTTP_CREATED);
+            return new JsonResponse([], Response::HTTP_CREATED);
         } else{
-            return new JsonResponse('{"Could not put product"}', Response::HTTP_BAD_REQUEST);
+            return new JsonResponse(["message" => "Could not add product"], Response::HTTP_BAD_REQUEST);
         }    
     }
 }

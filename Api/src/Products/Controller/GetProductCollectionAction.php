@@ -19,7 +19,7 @@ class GetProductCollectionAction
     {
         $productCollection = $this->handler->handle();
         if(is_null($productCollection)){
-            return new JsonResponse($productCollection, Response::HTTP_NOT_FOUND);
+            return new JsonResponse([], Response::HTTP_NOT_FOUND);
         } else{
             return new JsonResponse($productCollection, Response::HTTP_OK);
         }    

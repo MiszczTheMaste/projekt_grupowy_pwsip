@@ -1,14 +1,14 @@
 <?php
 namespace App\ValueObject;
 
-use App\Exception\PasswordCannotBeEmpty;
+use Exception;
 
-class Password extends AbstractValueObject
+class CategoryName extends AbstractValueObject
 {
     protected function validate($value): void
     {
         if($value == ""){
-            throw new PasswordCannotBeEmpty;
+            throw new Exception("Category name must not be empty");
         }
     }
 }

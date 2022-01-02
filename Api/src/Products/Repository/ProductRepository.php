@@ -24,7 +24,7 @@ class ProductRepository implements ProductRepositoryInterface
         $query = $this->connection->createQueryBuilder()
             ->select('
             p.id as id, 
-            c.id as category, 
+            c.id as categoryId, 
             p.name as name, 
             price, 
             IFNULL(0,SUM(rating))/5 as rating,
@@ -46,7 +46,7 @@ class ProductRepository implements ProductRepositoryInterface
         $rawResult = $this->connection->createQueryBuilder()
             ->select(
                 'p.id as id, 
-                c.id as category, 
+                c.id as categoryId, 
                 p.name as name, 
                 price, 
                 IFNULL(0,SUM(rating))/5 as rating,

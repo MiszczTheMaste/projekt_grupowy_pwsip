@@ -3,12 +3,12 @@ namespace App\ValueObject;
 
 use Exception;
 
-class Name extends AbstractValueObject
+class ProductName extends AbstractValueObject
 {
     protected function validate($value): void
     {
-        if($value = ""){
-            throw new Exception("Product name must not be empty");
+        if($value == ""){
+            throw new Exception("ProductName must not be empty");
         }
     }
 }

@@ -1,15 +1,15 @@
 get_product_collection:
-    path: /api/products/get-product-collection
+    path: /api/product/all
     controller: App\Products\Controller\GetProductCollectionAction
     methods: [GET]
 get_product:
-    path: /api/products/get-product/{id}
+    path: /api/product/{id}
     controller: App\Products\Controller\GetProductAction
     requirements:
         id: '\d+'
     methods: [GET]
 post_product:
-    path: /api/products/post-product
+    path: /api/product
     controller: App\Products\Controller\PostProductAction
     methods: [POST]
 generate_jwt_token:
@@ -23,11 +23,15 @@ register:
     path: /api/auth/register
     controller: App\Auth\Controller\RegistrationAction
     methods: [POST]
-get_categories:
-    path: /api/auth/register
-    controller: App\Auth\Controller\RegistrationAction
+get_single_category:
+    path: /api/category/{id}
+    controller: App\Categories\Controller\GetCategoryAction
     methods: [GET]
-post_categories:
-    path: /api/auth/register
-    controller: App\Auth\Controller\RegistrationAction
+get_categories_list:
+    path: /api/category/all/{visible}
+    controller: App\Categories\Controller\GetCollectionCategoryAction
     methods: [GET]
+post_category:
+    path: /api/category
+    controller: App\Categories\Controller\PostCategoryAction
+    methods: [POST]

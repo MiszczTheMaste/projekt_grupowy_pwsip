@@ -1,7 +1,8 @@
 <?php
 namespace App\Products\DTO;
 
-use App\ValueObject\Name;
+use App\ValueObject\CategoryId;
+use App\ValueObject\ProductName;
 use App\ValueObject\Price;
 use App\ValueObject\Rating;
 use App\ValueObject\ProductId;
@@ -10,8 +11,8 @@ use App\ValueObject\Stock;
 class Product implements \JsonSerializable
 {
     private ?ProductId $id;
-    private Name $name;
-    private int $categoryId;
+    private ProductName $name;
+    private CategoryId $categoryId;
     private Price $price;
     private ?Rating $rating;
     private ?Stock $stock;
@@ -26,8 +27,8 @@ class Product implements \JsonSerializable
     )
     {
         $this->id = new ProductId($id);
-        $this->name = new Name($name);
-        $this->categoryId = $categoryId;
+        $this->name = new ProductName($name);
+        $this->categoryId = new CategoryId($categoryId);
         $this->price = new Price($price);
         $this->rating = new Rating($rating);
         $this->stock = new Stock($stock);
@@ -40,7 +41,8 @@ class Product implements \JsonSerializable
             'name' => $this->name->getValue(),
             'price' => $this->price->getValue(),
             'rating' => $this->rating->getValue(),
-            'stock' => $this->stock->getValue()
+            'stock' => $this->stock->getValue(),
+            'categoryId' => $this->categoryId->getValue()
         ];
     }
 

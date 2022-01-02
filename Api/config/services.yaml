@@ -62,3 +62,34 @@ services:
             $handler: '@App\Auth\CommandHandler\RegistrationHandler'   
 
     App\Auth\CommandHandler\RegistrationHandler:
+
+    App\Categories\Controller\GetCategoryAction:
+        public: true
+        arguments:
+            $handler: '@App\Categories\QueryHandler\GetCategoryHandler'      
+            
+    App\Categories\QueryHandler\GetCategoryHandler:
+        arguments:
+            $repository: '@App\Categories\Repository\CategoryRepository'         
+            
+    App\Categories\Controller\GetCollectionCategoryAction:
+        public: true
+        arguments:
+            $handler: '@App\Categories\QueryHandler\GetCollectionCategoryHandler'      
+            
+    App\Categories\QueryHandler\GetCollectionCategoryHandler:
+        arguments:
+            $repository: '@App\Categories\Repository\CategoryRepository'      
+            
+    App\Categories\Controller\PostCategoryAction:
+        public: true
+        arguments:
+            $handler: '@App\Categories\QueryHandler\PostCategoryHandler'      
+            
+    App\Categories\QueryHandler\PostCategoryHandler:
+        arguments:
+            $repository: '@App\Categories\Repository\CategoryRepository'       
+            
+    App\Categories\Repository\CategoryRepository:
+        arguments:
+            $connection: '@doctrine.dbal.default_connection'
