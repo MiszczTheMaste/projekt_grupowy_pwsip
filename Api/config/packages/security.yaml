@@ -39,7 +39,8 @@ security:
             provider: app_user_provider
 
     access_control:
-       - { path: '^/api/products/put_product', roles: IS_AUTHENTICATED_FULLY }
+       - { path: '^/api/product', method: POST, roles: IS_AUTHENTICATED_FULLY }
+       - { path: '^/api/category', method: POST, roles: IS_AUTHENTICATED_FULLY }
        - { path: '^/api/products', roles: PUBLIC_ACCESS }
        - { path: '^/api/category', roles: PUBLIC_ACCESS }
        - { path: '^/api/auth', roles: PUBLIC_ACCESS }
