@@ -4,14 +4,13 @@ info:
   title: "Api sklep autoryzacja"
   
 tags:
-- name: "JWT login"
-  description: "Logowanie się istniejącym loginem"
-  
+- name: "JWT"
+- name: "Rejestracja"
 paths:
   /api/auth/token:
      post:
         tags:
-        - "Auth"
+        - "JWT"
         summary: "Wygeneruj JWT dla danego hasła i loginu"
         parameters:
         - in: query
@@ -21,7 +20,7 @@ paths:
           description: refresh token JWT zwrócony przy jego generacji
         responses:
           200:
-            description: "successful operation"
+            description: "Ok"
             content:
               application/json:
                 schema:
@@ -31,7 +30,7 @@ paths:
   /api/auth/refresh-token:
    post:
       tags:
-      - "Auth"
+      - "JWT"
       summary: "Odśwież dany JWT"
       parameters:
         - in: query
@@ -41,13 +40,35 @@ paths:
           description: refresh token JWT zwrócony przy jego generacji
       responses:
         200:
-          description: "successful operation"
+          description: "Ok"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/jwt"
         default:
           description: "Something went wrong"
+  /api/auth/register:
+     post:
+        tags:
+        - "Rejestracja"
+        summary: "Rejestracja użytkownika"
+        parameters:
+        - in: query
+          name: refresh_token
+          schema:
+            $ref: "#/components/schemas/dane_logowania"
+          description: refresh token JWT zwrócony przy jego generacji
+        responses:
+          200:
+            description: "Ok"
+          504:
+            description: "User already exists"
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/504"
+          default:
+            description: "Something went wrong"
           
 components:
   schemas:
@@ -83,4 +104,9 @@ components:
         refresh_token:
           type: "string"
           example: "8eb8514dd45d480f42f1d2602baba17266ed238991181a40bed5683661fa2afcd6ffb35638bd0e943346aeec12ec34b08f8a169ab7fb7ef2684e91760936742b"
-
+    504:
+      type: "object"
+      properties:
+        message:
+          type: "string"
+          example: "User already exists"
