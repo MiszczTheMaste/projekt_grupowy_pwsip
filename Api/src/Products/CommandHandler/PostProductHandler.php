@@ -17,14 +17,10 @@ class PostProductHandler
     public function handle(Request $request): bool
     {
         $data = json_decode($request->getContent(),true);
-        $newProduct = ProductFactory::CreateFromArray([
-            'id' => null,
-            'name' => $data['name'],
-            'categoryId' => $data['categoryId'],
-            'price' => $data['price'],
-            'rating' => null,
-            'stock' => null
-        ]);
+        $data['id'] = null;
+        $data['rating'] = null;
+        $data['stock'] = null;
+        $newProduct = ProductFactory::CreateFromArray($data);
         return $this->repository->putProduct($newProduct);
     }
 }

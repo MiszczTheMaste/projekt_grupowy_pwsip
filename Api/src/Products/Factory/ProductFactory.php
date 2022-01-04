@@ -11,6 +11,8 @@ class ProductFactory
             $array['id'],
             $array['name'],
             $array['categoryId'],
+            $array['description'],
+            $array['image'],
             $array['price'],
             $array['rating'],
             $array['stock']

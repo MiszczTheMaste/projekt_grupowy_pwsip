@@ -26,6 +26,8 @@ class ProductRepository implements ProductRepositoryInterface
             p.id as id, 
             c.id as categoryId, 
             p.name as name, 
+            p.description as description,
+            p.image as image,
             price, 
             IFNULL(0,SUM(rating))/5 as rating,
             IFNULL(0,sum(amount_left)) as stock
@@ -48,6 +50,8 @@ class ProductRepository implements ProductRepositoryInterface
                 'p.id as id, 
                 c.id as categoryId, 
                 p.name as name, 
+                p.description as description,
+                p.image as image,
                 price, 
                 IFNULL(0,SUM(rating))/5 as rating,
                 IFNULL(0,sum(amount_left)) as stock
@@ -71,11 +75,15 @@ class ProductRepository implements ProductRepositoryInterface
         ->values(array(
             'name' => '?',
             'price' => '?',
-            'category_id' => '?'
+            'category_id' => '?',
+            'image' => '?',
+            'description' => '?'
         ))
         ->setParameter(0, $product->getName())
         ->setparameter(1, $product->getPrice())
-        ->setparameter(2, $product->getCategoryId());
+        ->setparameter(2, $product->getCategoryId())
+        ->setparameter(3, $product->getImage())
+        ->setparameter(4, $product->getDescription());
         $query->executeQuery();
         return true;
     }

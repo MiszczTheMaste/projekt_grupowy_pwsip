@@ -61,12 +61,18 @@ paths:
         responses:
           200:
             description: "Ok"
-          504:
+          400:
+            description: "Invalid username or password"
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/400"
+          409:
             description: "User already exists"
             content:
               application/json:
                 schema:
-                  $ref: "#/components/schemas/504"
+                  $ref: "#/components/schemas/409"
           default:
             description: "Something went wrong"
           
@@ -104,9 +110,15 @@ components:
         refresh_token:
           type: "string"
           example: "8eb8514dd45d480f42f1d2602baba17266ed238991181a40bed5683661fa2afcd6ffb35638bd0e943346aeec12ec34b08f8a169ab7fb7ef2684e91760936742b"
-    504:
+    409:
       type: "object"
       properties:
         message:
           type: "string"
           example: "User already exists"
+    400:
+      type: "object"
+      properties:
+        message:
+          type: "string"
+          example: "Invalid username or password"
