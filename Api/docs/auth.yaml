@@ -6,6 +6,7 @@ info:
 tags:
 - name: "JWT"
 - name: "Rejestracja"
+- name: "User"
 paths:
   /api/auth/token:
      post:
@@ -25,6 +26,12 @@ paths:
               application/json:
                 schema:
                   $ref: "#/components/schemas/jwt"
+          401:
+            description: "Invalid credentials"
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/401"
           default:
             description: "Something went wrong"
   /api/auth/refresh-token:
@@ -75,7 +82,27 @@ paths:
                   $ref: "#/components/schemas/409"
           default:
             description: "Something went wrong"
-          
+  /api/user/get-login:
+    post:
+      tags:
+      - "User"
+      summary: "Rejestracja użytkownika"
+      description: "Trzeba się poświadczyć tokenem, inaczej nie puści"
+      responses:
+        200:
+          description: "Ok"
+          content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/login"
+        401:
+          description: "Unauthorized"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/401_login"
+        default:
+          description: "Something went wrong" 
 components:
   schemas:
     dane_logowania:
@@ -122,3 +149,21 @@ components:
         message:
           type: "string"
           example: "Invalid username or password"
+    401:
+      type: "object"
+      properties:
+        message:
+          type: "string"
+          example: "Invalid credentials"
+    401_login:
+      type: "object"
+      properties:
+        message:
+          type: "string"
+          example: "Invalid JWT Token"   
+    login:
+      type: "object"
+      properties:
+        username:
+          type: "string"
+          example: "admin"

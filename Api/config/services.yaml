@@ -93,3 +93,5 @@ services:
     App\Categories\Repository\CategoryRepository:
         arguments:
             $connection: '@doctrine.dbal.default_connection'
+
+    App\Auth\Controller\LoginVerificationAction:

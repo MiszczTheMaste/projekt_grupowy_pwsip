@@ -41,6 +41,7 @@ security:
     access_control:
        - { path: '^/api/product', method: POST, roles: IS_AUTHENTICATED_FULLY }
        - { path: '^/api/category', method: POST, roles: IS_AUTHENTICATED_FULLY }
+       - { path: '^/api/user/get-login', method: POST, roles: IS_AUTHENTICATED_FULLY }
        - { path: '^/api/products', roles: PUBLIC_ACCESS }
        - { path: '^/api/category', roles: PUBLIC_ACCESS }
        - { path: '^/api/auth', roles: PUBLIC_ACCESS }

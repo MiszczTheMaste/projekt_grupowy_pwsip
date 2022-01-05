@@ -14,6 +14,10 @@ post_product:
     methods: [POST]
 generate_jwt_token:
     path: /api/auth/token
+    methods: [POST]    
+get_username:
+    path: /api/user/get-login
+    controller: App\Auth\Controller\LoginVerificationAction
     methods: [POST]
 gesdinet_jwt_refresh_token:
     path: /api/auth/refresh-token
