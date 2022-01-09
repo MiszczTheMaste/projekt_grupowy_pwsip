@@ -3,6 +3,7 @@ namespace App\Products\QueryHandler;
 
 use App\Products\DTO\ProductCollection;
 use App\Products\Repository\ProductRepositoryInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 class GetProductCollectionHandler
 {
@@ -13,8 +14,13 @@ class GetProductCollectionHandler
         $this->repository = $repository;
     }
 
-    public function handle():ProductCollection
+    public function handle(Request $request):ProductCollection
     {
-        return $this->repository->GetAllProducts();
+        $data = json_decode($request->getContent(),true);
+        if(isset($data['products'])){
+            return $this->repository->GetProductsByIdArray($data['products']);
+        } else {
+            return $this->repository->GetAllProducts();
+        }     
     }
 }

@@ -8,6 +8,8 @@ interface ProductRepositoryInterface
 {
     public function GetAllProducts():ProductCollection;
 
+    public function GetProductsByIdArray(array $productsIds):ProductCollection;
+
     public function GetProductById(int $productId):Product;
 
     public function putProduct(Product $product):bool;

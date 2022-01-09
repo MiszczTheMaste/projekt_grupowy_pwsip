@@ -8,11 +8,16 @@ tags:
   description: "Informacje o produktach"
 
 paths:
-  /api/product/all:
+  /api/product/collection:
      get:
         tags:
         - "products"
-        summary: "Zwróć wszystkie produkty"
+        summary: "Zwraca kolekcję produktów o danym id, gdy nie podano żadnego id zwraca wszystkie"
+        parameters:
+        - in: query
+          name: products
+          schema:
+            $ref: "#/components/schemas/ProductIds"
         responses:
           "200":
             description: "Ok"
@@ -77,6 +82,12 @@ components:
         price:
           type: "string"
           example: "2.20"
+        description:
+          type: "string"
+          example: "Lorem Ipsum"
+        image:
+          type: "string"
+          example: "obrazek.png"
         categoryId:
           type: "integer"
           format: "int64"
@@ -94,6 +105,12 @@ components:
         price:
           type: "string"
           example: "2.20"
+        description:
+          type: "string"
+          example: "Lorem Ipsum"
+        image:
+          type: "string"
+          example: "obrazek.png"
         rating:
           type: "integer"
           format: "int64"
@@ -106,6 +123,14 @@ components:
           type: "integer"
           format: "int64"
           example: 1
+    ProductIds:
+      type: "object"
+      properties:
+        products:
+          type: "array"
+          items:
+            type: integer
+          example: [1, 2, 3]
     ProductCollection:
       type: "array"
       items:

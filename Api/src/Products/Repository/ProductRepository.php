@@ -29,14 +29,40 @@ class ProductRepository implements ProductRepositoryInterface
             p.description as description,
             p.image as image,
             price, 
-            IFNULL(0,SUM(rating))/5 as rating,
-            IFNULL(0,sum(amount_left)) as stock
+            IFNULL(AVG(rating),0) as rating,
+            IFNULL(sum(amount_left),0) as stock
         ')
             ->from('products', 'p')
             ->leftJoin('p', 'opinions', 'o', 'o.product_id = p.id')
             ->leftJoin('p', 'categories', 'c', 'c.id = p.category_id')
             ->leftJoin('p', 'stock', 's', 'p.id = s.product_id AND s.amount_left > 0')
             ->GroupBy('p.id');
+        $query->executeQuery();
+        $rawResult = $query->fetchAllAssociative();
+        return ProductCollectionFactory::CreateFromArray($rawResult);
+    }
+
+    public function GetProductsByIdArray(array $productsIds): ProductCollection
+    {
+        $query = $this->connection->createQueryBuilder()
+            ->select('
+            p.id as id, 
+            c.id as categoryId, 
+            p.name as name, 
+            p.description as description,
+            p.image as image,
+            price, 
+            IFNULL(AVG(rating),0) as rating,
+            IFNULL(sum(amount_left),0) as stock
+        ')
+            ->from('products', 'p')
+            ->leftJoin('p', 'opinions', 'o', 'o.product_id = p.id')
+            ->leftJoin('p', 'categories', 'c', 'c.id = p.category_id')
+            ->leftJoin('p', 'stock', 's', 'p.id = s.product_id AND s.amount_left > 0')
+            ->where("p.id IN (:productsIds)")
+            ->setParameter('productsIds', array_values($productsIds), \Doctrine\DBAL\Connection::PARAM_STR_ARRAY)
+            ->GroupBy('p.id');
+
         $query->executeQuery();
         $rawResult = $query->fetchAllAssociative();
         return ProductCollectionFactory::CreateFromArray($rawResult);
@@ -53,8 +79,8 @@ class ProductRepository implements ProductRepositoryInterface
                 p.description as description,
                 p.image as image,
                 price, 
-                IFNULL(0,SUM(rating))/5 as rating,
-                IFNULL(0,sum(amount_left)) as stock
+                IFNULL(AVG(rating),0)/5 as rating,
+                IFNULL(sum(amount_left),0) as stock
             '
             )
             ->from('products', 'p')
