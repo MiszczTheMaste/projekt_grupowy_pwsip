@@ -8,6 +8,8 @@ use App\Exception\UserAlreadyExists;
 use App\Exception\UsernameCannotBeEmpty;
 use App\User\Repository\UserRepository;
 use App\Auth\CommandHandler\RegistrationHandler;
+use App\Exception\RegisterWrongPassword;
+use App\Exception\RegisterWrongUsername;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -45,6 +47,10 @@ class RegistrationAction extends AbstractController
             $this->handler->handle($password, $username);
         } catch (PasswordCannotBeEmpty | UsernameCannotBeEmpty) {
             return new JsonResponse(["message" => "Invalid username or password"], Response::HTTP_BAD_REQUEST);
+        } catch (RegisterWrongPassword) {
+            return new JsonResponse(["message" => "Hasło musi mieć minimum 6 znaków"], Response::HTTP_BAD_REQUEST);
+        } catch (RegisterWrongUsername) {
+            return new JsonResponse(["message" => "Nazwa użytkownika musi mieć od 6 do 13 znaków"], Response::HTTP_BAD_REQUEST);
         } catch (CouldNotRegisterUser) {
             return new JsonResponse(["message" => "Could not register user"], Response::HTTP_INTERNAL_SERVER_ERROR);
         } catch (UserAlreadyExists) {

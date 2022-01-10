@@ -2,6 +2,7 @@
 namespace App\ValueObject;
 
 use App\Exception\PasswordCannotBeEmpty;
+use App\Exception\RegisterWrongPassword;
 
 class Password extends AbstractValueObject
 {
@@ -9,6 +10,9 @@ class Password extends AbstractValueObject
     {
         if($value == ""){
             throw new PasswordCannotBeEmpty;
+        }
+        if(strlen($value) < 6){
+            throw new RegisterWrongPassword;
         }
     }
 }
