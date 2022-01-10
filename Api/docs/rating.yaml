@@ -1,0 +1,33 @@
+openapi: "3.0.1"
+info:
+  version: "1.0.0"
+  title: "Api sklep - oceny"
+  
+tags:
+- name: "rating"
+
+paths:
+  /api/rate/{id}/{rate}:
+     post:
+        tags:
+        - "categories"
+        summary: "Dodaj ocenę do produktu"
+        parameters:
+        - in: path
+          name: id
+          schema:
+            type: "integer"
+          required: true
+        - in: path
+          name: rate
+          description: "Od 1 do 5"
+          schema:
+            type: "integer"
+          required: true
+        responses:
+          "201":
+            description: "Ok"
+          "400":
+            description: "Bad query"
+          "409":
+            description: "Duplicate"

@@ -39,3 +39,7 @@ post_category:
     path: /api/category
     controller: App\Categories\Controller\PostCategoryAction
     methods: [POST]
+post_rating:
+    path: /api/rate/{id}/{rating}
+    controller: App\Rating\Controller\PostRatingAction
+    methods: [POST]

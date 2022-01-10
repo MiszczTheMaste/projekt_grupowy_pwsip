@@ -95,3 +95,16 @@ services:
             $connection: '@doctrine.dbal.default_connection'
 
     App\Auth\Controller\LoginVerificationAction:
+
+    App\Rating\Controller\PostRatingAction:
+        public: true
+        arguments:
+            $handler: '@App\Rating\CommandHandler\PostRatingHandler'    
+            
+    App\Rating\CommandHandler\PostRatingHandler:
+        arguments:
+            $repository: '@App\Rating\Repository\DBALRatingRepository'    
+
+    App\Rating\Repository\DBALRatingRepository:
+        arguments:
+            $connection: '@doctrine.dbal.default_connection'

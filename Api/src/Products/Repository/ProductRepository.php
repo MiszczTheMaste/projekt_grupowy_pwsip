@@ -7,7 +7,6 @@ use App\Products\DTO\ProductCollection;
 use App\Products\Factory\ProductCollectionFactory;
 use App\Products\Factory\ProductFactory;
 use Doctrine\DBAL\Connection;
-use Doctrine\ORM\Query\Expr\GroupBy;
 
 class ProductRepository implements ProductRepositoryInterface
 {
@@ -79,7 +78,7 @@ class ProductRepository implements ProductRepositoryInterface
                 p.description as description,
                 p.image as image,
                 price, 
-                IFNULL(AVG(rating),0)/5 as rating,
+                IFNULL(AVG(rating),0) as rating,
                 IFNULL(sum(amount_left),0) as stock
             '
             )

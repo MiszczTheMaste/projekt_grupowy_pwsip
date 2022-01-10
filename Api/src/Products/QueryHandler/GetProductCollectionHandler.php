@@ -16,11 +16,11 @@ class GetProductCollectionHandler
 
     public function handle(Request $request):ProductCollection
     {
-        $data = json_decode($request->getContent(),true);
-        if(isset($data['products'])){
-            return $this->repository->GetProductsByIdArray($data['products']);
-        } else {
+        $data = json_decode($request->query->get("products"),true);
+        if(is_null($data)){
             return $this->repository->GetAllProducts();
+        } else {
+            return $this->repository->GetProductsByIdArray($data);
         }     
     }
 }
