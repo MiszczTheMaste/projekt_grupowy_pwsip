@@ -107,4 +107,26 @@ services:
 
     App\Rating\Repository\DBALRatingRepository:
         arguments:
+            $connection: '@doctrine.dbal.default_connection'    
+            
+    App\Stock\Controller\UpdateStockAction:
+        public: true
+        arguments:
+            $handler: '@App\Stock\CommandHandler\UpdateStockHandler'    
+            
+    App\Stock\CommandHandler\UpdateStockHandler:
+        arguments:
+            $repository: '@App\Stock\Repository\DBALStockRepository'       
+            
+    App\Stock\Controller\SetStockAction:
+        public: true
+        arguments:
+            $handler: '@App\Stock\CommandHandler\SetStockHandler'    
+            
+    App\Stock\CommandHandler\SetStockHandler:
+        arguments:
+            $repository: '@App\Stock\Repository\DBALStockRepository'    
+
+    App\Stock\Repository\DBALStockRepository:
+        arguments:
             $connection: '@doctrine.dbal.default_connection'

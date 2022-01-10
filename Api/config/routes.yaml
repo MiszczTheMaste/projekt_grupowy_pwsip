@@ -43,3 +43,11 @@ post_rating:
     path: /api/rate/{id}/{rating}
     controller: App\Rating\Controller\PostRatingAction
     methods: [POST]
+update_stock:
+    path: /api/stock/update/{productId}/{amount}
+    controller: App\Stock\Controller\UpdateStockAction
+    methods: [PATCH]
+set_stock:
+    path: /api/stock/set/{productId}/{amount}
+    controller: App\Stock\Controller\SetStockAction
+    methods: [PATCH]

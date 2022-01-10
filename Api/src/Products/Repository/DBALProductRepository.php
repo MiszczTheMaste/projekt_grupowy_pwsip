@@ -29,12 +29,11 @@ class DBALProductRepository implements ProductRepository
             p.image as image,
             price, 
             IFNULL(AVG(rating),0) as rating,
-            IFNULL(sum(amount_left),0) as stock
+            p.stock
         ')
             ->from('products', 'p')
             ->leftJoin('p', 'opinions', 'o', 'o.product_id = p.id')
             ->leftJoin('p', 'categories', 'c', 'c.id = p.category_id')
-            ->leftJoin('p', 'stock', 's', 'p.id = s.product_id AND s.amount_left > 0')
             ->GroupBy('p.id');
         $query->executeQuery();
         $rawResult = $query->fetchAllAssociative();
@@ -52,12 +51,11 @@ class DBALProductRepository implements ProductRepository
             p.image as image,
             price, 
             IFNULL(AVG(rating),0) as rating,
-            IFNULL(sum(amount_left),0) as stock
+            p.stock
         ')
             ->from('products', 'p')
             ->leftJoin('p', 'opinions', 'o', 'o.product_id = p.id')
             ->leftJoin('p', 'categories', 'c', 'c.id = p.category_id')
-            ->leftJoin('p', 'stock', 's', 'p.id = s.product_id AND s.amount_left > 0')
             ->where("p.id IN (:productsIds)")
             ->setParameter('productsIds', array_values($productsIds), \Doctrine\DBAL\Connection::PARAM_STR_ARRAY)
             ->GroupBy('p.id');
@@ -79,13 +77,12 @@ class DBALProductRepository implements ProductRepository
                 p.image as image,
                 price, 
                 IFNULL(AVG(rating),0) as rating,
-                IFNULL(sum(amount_left),0) as stock
+                p.stock
             '
             )
             ->from('products', 'p')
             ->leftJoin('p', 'opinions', 'o', 'o.product_id = p.id')
             ->join('p', 'categories', 'c', 'c.id = p.category_id')
-            ->leftJoin('p', 'stock', 's', 'p.id = s.product_id AND s.amount_left > 0')
             ->where('p.id = :productId')
             ->setParameter('productId', $productId);;
         $rawResult->executeQuery();

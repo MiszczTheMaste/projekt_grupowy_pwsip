@@ -1,0 +1,55 @@
+openapi: "3.0.1"
+info:
+  version: "1.0.0"
+  title: "Api sklep - stan towarów"
+  
+tags:
+- name: "stock"
+
+paths:
+  /api/stock/update/{productId}/{amount}:
+     patch:
+        tags:
+        - "stock"
+        summary: "Zmień ilość produktu na stanie"
+        parameters:
+        - in: path
+          name: productId
+          schema:
+            type: "integer"
+          required: true
+        - in: path
+          name: amount
+          schema:
+            type: "integer"
+          required: true
+        responses:
+          "200":
+            description: "Ok"
+          "400":
+            description: "Not enough products"
+          "404":
+            description: "Not found"
+  /api/stock/set/{productId}/{amount}:
+     patch:
+        tags:
+        - "stock"
+        summary: "Ustaw ilość produktów na stanie"
+        parameters:
+        - in: path
+          name: productId
+          schema:
+            type: "integer"
+          required: true
+        - in: path
+          name: amount
+          schema:
+            type: "integer"
+          required: true
+        responses:
+          "200":
+            description: "Ok"
+          "400":
+            description: "Invalid amount"
+          "404":
+            description: "Not found"
