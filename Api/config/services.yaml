@@ -24,13 +24,13 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    App\Products\Repository\ProductRepository:
+    App\Products\Repository\DBALProductRepository:
         arguments:
             $connection: '@doctrine.dbal.default_connection'
             
     App\Products\QueryHandler\GetProductCollectionHandler:
         arguments:
-            $repository: '@App\Products\Repository\ProductRepository'
+            $repository: '@App\Products\Repository\DBALProductRepository'
 
     App\Products\Controller\GetProductCollectionAction:
         public: true
@@ -40,7 +40,7 @@ services:
 
     App\Products\QueryHandler\GetProductHandler:
         arguments:
-            $repository: '@App\Products\Repository\ProductRepository'
+            $repository: '@App\Products\Repository\DBALProductRepository'
       
     App\Products\Controller\GetProductAction:
         public: true
@@ -49,7 +49,7 @@ services:
             
     App\Products\CommandHandler\PostProductHandler:
         arguments:
-            $repository: '@App\Products\Repository\ProductRepository'
+            $repository: '@App\Products\Repository\DBALProductRepository'
       
     App\Products\Controller\PostProductAction:
         public: true
@@ -70,7 +70,7 @@ services:
             
     App\Categories\QueryHandler\GetCategoryHandler:
         arguments:
-            $repository: '@App\Categories\Repository\CategoryRepository'         
+            $repository: '@App\Categories\Repository\DBALCategoryRepository'         
             
     App\Categories\Controller\GetCollectionCategoryAction:
         public: true
@@ -79,7 +79,7 @@ services:
             
     App\Categories\QueryHandler\GetCollectionCategoryHandler:
         arguments:
-            $repository: '@App\Categories\Repository\CategoryRepository'      
+            $repository: '@App\Categories\Repository\DBALCategoryRepository'      
             
     App\Categories\Controller\PostCategoryAction:
         public: true
@@ -88,9 +88,9 @@ services:
             
     App\Categories\QueryHandler\PostCategoryHandler:
         arguments:
-            $repository: '@App\Categories\Repository\CategoryRepository'       
+            $repository: '@App\Categories\Repository\DBALCategoryRepository'       
             
-    App\Categories\Repository\CategoryRepository:
+    App\Categories\Repository\DBALCategoryRepository:
         arguments:
             $connection: '@doctrine.dbal.default_connection'
 

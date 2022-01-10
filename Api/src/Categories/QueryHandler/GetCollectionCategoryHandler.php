@@ -3,13 +3,13 @@
 namespace App\Categories\QueryHandler;
 
 use App\Categories\DTO\CategoryCollection;
-use App\Categories\Repository\CategoryRepository;
+use App\Categories\Repository\DBALCategoryRepository;
 
 class GetCollectionCategoryHandler
 {
-    private CategoryRepository $repository;
+    private DBALCategoryRepository $repository;
 
-    public function __construct(CategoryRepository $repository)
+    public function __construct(DBALCategoryRepository $repository)
     {
         $this->repository = $repository;
     }

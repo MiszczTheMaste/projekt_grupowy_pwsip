@@ -2,13 +2,13 @@
 namespace App\Products\QueryHandler;
 
 use App\Products\DTO\Product;
-use App\Products\Repository\ProductRepositoryInterface;
+use App\Products\Repository\ProductRepository;
 
 class GetProductHandler
 {
-    private ProductRepositoryInterface $repository;
+    private ProductRepository $repository;
 
-    public function __construct(ProductRepositoryInterface $repository)
+    public function __construct(ProductRepository $repository)
     {
         $this->repository = $repository;
     }

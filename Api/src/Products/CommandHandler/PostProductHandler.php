@@ -2,14 +2,14 @@
 namespace App\Products\CommandHandler;
 
 use App\Products\Factory\ProductFactory;
-use App\Products\Repository\ProductRepositoryInterface;
+use App\Products\Repository\ProductRepository;
 use Symfony\Component\HttpFoundation\Request;
 
 class PostProductHandler
 {
-    private ProductRepositoryInterface $repository;
+    private ProductRepository $repository;
 
-    public function __construct(ProductRepositoryInterface $repository)
+    public function __construct(ProductRepository $repository)
     {
         $this->repository = $repository;
     }

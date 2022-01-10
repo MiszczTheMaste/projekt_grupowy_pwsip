@@ -2,14 +2,14 @@
 namespace App\Products\QueryHandler;
 
 use App\Products\DTO\ProductCollection;
-use App\Products\Repository\ProductRepositoryInterface;
+use App\Products\Repository\ProductRepository;
 use Symfony\Component\HttpFoundation\Request;
 
 class GetProductCollectionHandler
 {
-    private ProductRepositoryInterface $repository;
+    private ProductRepository $repository;
     
-    public function __construct(ProductRepositoryInterface $repository)
+    public function __construct(ProductRepository $repository)
     {
         $this->repository = $repository;
     }
