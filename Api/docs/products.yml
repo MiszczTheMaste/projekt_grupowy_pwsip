@@ -92,6 +92,8 @@ components:
           type: "integer"
           format: "int64"
           example: 1
+        specs:
+          $ref: "#/components/schemas/productSpecs"
     ProductFetch:
       type: "object"
       properties:
@@ -123,6 +125,8 @@ components:
           type: "integer"
           format: "int64"
           example: 1
+        specs:
+          $ref: "#/components/schemas/productSpecs"
     ProductIds:
       type: "object"
       properties:
@@ -134,4 +138,13 @@ components:
     ProductCollection:
       type: "array"
       items:
-          $ref: "#/components/schemas/ProductFetch"
+          $ref: "#/components/schemas/ProductFetch"    
+    productSpecs:
+      type: "object"
+      properties:
+        Procesor:
+          type: "string"
+          example: "AMD Ryzen 5 milionów"
+        Karta Graficzna:
+          type: "string"
+          example: "RTX 10"

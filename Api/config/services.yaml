@@ -129,4 +129,26 @@ services:
 
     App\Stock\Repository\DBALStockRepository:
         arguments:
+            $connection: '@doctrine.dbal.default_connection'    
+            
+    App\Orders\Controller\PostOrderAction:
+        public: true
+        arguments:
+            $handler: '@App\Orders\CommandHandler\PostOrderHandler'    
+            
+    App\Orders\CommandHandler\PostOrderHandler:
+        arguments:
+            $repository: '@App\Orders\Repository\DBALOrderRepository'       
+
+    App\Orders\Controller\GetOrderCollectionAction:
+        public: true
+        arguments:
+            $handler: '@App\Orders\QueryHandler\GetOrderCollectionHandler'    
+            
+    App\Orders\QueryHandler\GetOrderCollectionHandler:
+        arguments:
+            $repository: '@App\Orders\Repository\DBALOrderRepository'       
+
+    App\Orders\Repository\DBALOrderRepository:
+        arguments:
             $connection: '@doctrine.dbal.default_connection'

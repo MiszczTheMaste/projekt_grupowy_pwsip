@@ -29,7 +29,8 @@ class DBALProductRepository implements ProductRepository
             p.image as image,
             price, 
             IFNULL(AVG(rating),0) as rating,
-            p.stock
+            p.stock,
+            p.specs
         ')
             ->from('products', 'p')
             ->leftJoin('p', 'opinions', 'o', 'o.product_id = p.id')
@@ -51,7 +52,8 @@ class DBALProductRepository implements ProductRepository
             p.image as image,
             price, 
             IFNULL(AVG(rating),0) as rating,
-            p.stock
+            p.stock,
+            specs
         ')
             ->from('products', 'p')
             ->leftJoin('p', 'opinions', 'o', 'o.product_id = p.id')
@@ -77,14 +79,15 @@ class DBALProductRepository implements ProductRepository
                 p.image as image,
                 price, 
                 IFNULL(AVG(rating),0) as rating,
-                p.stock
+                p.stock,
+                specs
             '
             )
             ->from('products', 'p')
             ->leftJoin('p', 'opinions', 'o', 'o.product_id = p.id')
             ->join('p', 'categories', 'c', 'c.id = p.category_id')
             ->where('p.id = :productId')
-            ->setParameter('productId', $productId);;
+            ->setParameter('productId', $productId);
         $rawResult->executeQuery();
         $rawResult = $rawResult->fetchAllAssociative();
         return ProductFactory::CreateFromArray($rawResult[0]);
@@ -99,13 +102,15 @@ class DBALProductRepository implements ProductRepository
             'price' => '?',
             'category_id' => '?',
             'image' => '?',
-            'description' => '?'
+            'description' => '?',
+            'specs' => '?',
         ))
         ->setParameter(0, $product->getName())
         ->setparameter(1, $product->getPrice())
         ->setparameter(2, $product->getCategoryId())
         ->setparameter(3, $product->getImage())
-        ->setparameter(4, $product->getDescription());
+        ->setparameter(4, $product->getDescription())
+        ->setparameter(5, json_encode($product->getSpecs()));
         $query->executeQuery();
         return true;
     }

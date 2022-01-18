@@ -51,3 +51,11 @@ set_stock:
     path: /api/stock/set/{productId}/{amount}
     controller: App\Stock\Controller\SetStockAction
     methods: [PATCH]
+post_order:
+    path: /api/order
+    controller: App\Orders\Controller\PostOrderAction
+    methods: [POST]
+get_orders_for_user:
+    path: /api/order/user
+    controller: App\Orders\Controller\GetOrderCollectionAction
+    methods: [GET]

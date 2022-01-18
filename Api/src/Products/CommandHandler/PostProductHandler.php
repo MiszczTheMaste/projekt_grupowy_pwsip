@@ -20,6 +20,7 @@ class PostProductHandler
         $data['id'] = null;
         $data['rating'] = null;
         $data['stock'] = null;
+        $data['specs'] = json_encode($data['specs']);
         $newProduct = ProductFactory::CreateFromArray($data);
         return $this->repository->putProduct($newProduct);
     }

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Products\DTO;
 
 use App\ValueObject\CategoryId;
@@ -16,6 +17,7 @@ class Product implements \JsonSerializable
     private CategoryId $categoryId;
     private NotEmptyString $description;
     private NotEmptyString $image;
+    private array $specs;
     private Price $price;
     private ?Rating $rating;
     private ?Stock $stock;
@@ -28,9 +30,9 @@ class Product implements \JsonSerializable
         string $image,
         float $price,
         ?float $rating,
-        ?int $stock
-    )
-    {
+        ?int $stock,
+        array $specs
+    ) {
         $this->id = new ProductId($id);
         $this->name = new ProductName($name);
         $this->description = new NotEmptyString($description);
@@ -39,6 +41,7 @@ class Product implements \JsonSerializable
         $this->price = new Price($price);
         $this->rating = new Rating($rating);
         $this->stock = new Stock($stock);
+        $this->specs = $specs;
     }
 
     public function jsonSerialize()
@@ -51,7 +54,8 @@ class Product implements \JsonSerializable
             'image' => $this->image->getValue(),
             'rating' => $this->rating->getValue(),
             'stock' => $this->stock->getValue(),
-            'categoryId' => $this->categoryId->getValue()
+            'categoryId' => $this->categoryId->getValue(),
+            'specs' => $this->specs
         ];
     }
 
@@ -64,19 +68,24 @@ class Product implements \JsonSerializable
     {
         return $this->price->getValue();
     }
-    
+
     public function getCategoryId()
     {
         return $this->categoryId;
-    }    
+    }
 
     public function getImage()
     {
         return $this->categoryId;
-    }   
+    }
 
     public function getDescription()
     {
         return $this->categoryId;
+    }    
+    
+    public function getSpecs()
+    {
+        return $this->specs;
     }
 }
