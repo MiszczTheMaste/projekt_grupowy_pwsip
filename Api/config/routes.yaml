@@ -27,6 +27,10 @@ register:
     path: /api/auth/register
     controller: App\Auth\Controller\RegistrationAction
     methods: [POST]
+change_password:
+    path: /api/user/change-password
+    controller: App\Auth\Controller\PasswordChangeAction
+    methods: [POST]
 get_single_category:
     path: /api/category/{id}
     controller: App\Categories\Controller\GetCategoryAction

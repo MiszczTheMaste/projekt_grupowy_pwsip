@@ -63,6 +63,13 @@ services:
 
     App\Auth\CommandHandler\RegistrationHandler:
 
+    App\Auth\Controller\PasswordChangeAction:
+        public: true
+        arguments:
+            $handler: '@App\Auth\CommandHandler\PasswordChangeHandler'   
+
+    App\Auth\CommandHandler\RegistrationHandler:
+
     App\Categories\Controller\GetCategoryAction:
         public: true
         arguments:

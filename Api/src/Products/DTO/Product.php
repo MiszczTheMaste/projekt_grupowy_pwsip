@@ -76,12 +76,12 @@ class Product implements \JsonSerializable
 
     public function getImage()
     {
-        return $this->categoryId;
+        return $this->image;
     }
 
     public function getDescription()
     {
-        return $this->categoryId;
+        return $this->description;
     }    
     
     public function getSpecs()
