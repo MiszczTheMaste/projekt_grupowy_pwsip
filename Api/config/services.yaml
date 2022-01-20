@@ -34,9 +34,17 @@ services:
 
     App\Products\Controller\GetProductCollectionAction:
         public: true
-        class: App\Products\Controller\GetProductCollectionAction
         arguments:
             $handler: '@App\Products\QueryHandler\GetProductCollectionHandler'
+
+    App\Products\QueryHandler\GetRatedProductsHandler:
+        arguments:
+            $repository: '@App\Products\Repository\DBALProductRepository'
+
+    App\Products\Controller\GetRatedProductsAction:
+        public: true
+        arguments:
+            $handler: '@App\Products\QueryHandler\GetRatedProductsHandler'
 
     App\Products\QueryHandler\GetProductHandler:
         arguments:

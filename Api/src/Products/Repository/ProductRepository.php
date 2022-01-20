@@ -3,6 +3,7 @@ namespace App\Products\Repository;
 
 use App\Products\DTO\ProductCollection;
 use App\Products\DTO\Product;
+use App\ValueObject\Username;
 
 interface ProductRepository
 {
@@ -13,4 +14,6 @@ interface ProductRepository
     public function GetProductById(int $productId):Product;
 
     public function putProduct(Product $product):bool;
+
+    public function getRatedProducts(Username $username):ProductCollection;
 }

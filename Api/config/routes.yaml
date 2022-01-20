@@ -2,6 +2,10 @@ get_product_collection:
     path: /api/product/collection
     controller: App\Products\Controller\GetProductCollectionAction
     methods: [GET]
+get_rated_products:
+    path: /api/product/rated
+    controller: App\Products\Controller\GetRatedProductsAction
+    methods: [GET]
 get_product:
     path: /api/product/{id}
     controller: App\Products\Controller\GetProductAction

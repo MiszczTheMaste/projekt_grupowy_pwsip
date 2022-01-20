@@ -6,6 +6,7 @@ use App\Products\DTO\Product;
 use App\Products\DTO\ProductCollection;
 use App\Products\Factory\ProductCollectionFactory;
 use App\Products\Factory\ProductFactory;
+use App\ValueObject\Username;
 use Doctrine\DBAL\Connection;
 
 class DBALProductRepository implements ProductRepository
@@ -113,5 +114,31 @@ class DBALProductRepository implements ProductRepository
         ->setparameter(5, json_encode($product->getSpecs()));
         $query->executeQuery();
         return true;
+    }
+
+    public function getRatedProducts(Username $username): ProductCollection
+    {
+        $query = $this->connection->createQueryBuilder()
+            ->select('
+            p.id as id, 
+            c.id as categoryId, 
+            p.name as name, 
+            p.description as description,
+            p.image as image,
+            price, 
+            IFNULL(AVG(rating),0) as rating,
+            p.stock,
+            specs
+        ')
+            ->from('products', 'p')
+            ->innerJoin('p', 'opinions', 'o', 'o.product_id = p.id')
+            ->leftJoin('p', 'categories', 'c', 'c.id = p.category_id')
+            ->where("o.username = (:username)")
+            ->setParameter('username', $username->getValue())
+            ->GroupBy('p.id');
+
+        $query->executeQuery();
+        $rawResult = $query->fetchAllAssociative();
+        return ProductCollectionFactory::CreateFromArray($rawResult);
     }
 }

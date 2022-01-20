@@ -19,6 +19,6 @@ class LoginVerificationAction extends AbstractController
     public function __invoke(): JsonResponse
     {
         $user = $this->security->getUser();
-        return new JsonResponse(["username" => $user->getUserIdentifier()], Response::HTTP_OK);
+        return new JsonResponse(["username" => $user->getUserIdentifier(), "roles" => $user->getRoles()], Response::HTTP_OK);
     }
 }
