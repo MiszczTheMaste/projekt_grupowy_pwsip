@@ -6,6 +6,7 @@ use App\Products\DTO\Product;
 use App\Products\DTO\ProductCollection;
 use App\Products\Factory\ProductCollectionFactory;
 use App\Products\Factory\ProductFactory;
+use App\ValueObject\ProductId;
 use App\ValueObject\Username;
 use Doctrine\DBAL\Connection;
 
@@ -36,6 +37,7 @@ class DBALProductRepository implements ProductRepository
             ->from('products', 'p')
             ->leftJoin('p', 'opinions', 'o', 'o.product_id = p.id')
             ->leftJoin('p', 'categories', 'c', 'c.id = p.category_id')
+            ->where('deleted = 0')
             ->GroupBy('p.id');
         $query->executeQuery();
         $rawResult = $query->fetchAllAssociative();
@@ -97,21 +99,21 @@ class DBALProductRepository implements ProductRepository
     public function putProduct(Product $product): bool
     {
         $query = $this->connection->createQueryBuilder()
-        ->insert('products')
-        ->values(array(
-            'name' => '?',
-            'price' => '?',
-            'category_id' => '?',
-            'image' => '?',
-            'description' => '?',
-            'specs' => '?',
-        ))
-        ->setParameter(0, $product->getName())
-        ->setparameter(1, $product->getPrice())
-        ->setparameter(2, $product->getCategoryId())
-        ->setparameter(3, $product->getImage())
-        ->setparameter(4, $product->getDescription())
-        ->setparameter(5, json_encode($product->getSpecs()));
+            ->insert('products')
+            ->values(array(
+                'name' => '?',
+                'price' => '?',
+                'category_id' => '?',
+                'image' => '?',
+                'description' => '?',
+                'specs' => '?',
+            ))
+            ->setParameter(0, $product->getName())
+            ->setparameter(1, $product->getPrice())
+            ->setparameter(2, $product->getCategoryId())
+            ->setparameter(3, $product->getImage())
+            ->setparameter(4, $product->getDescription())
+            ->setparameter(5, json_encode($product->getSpecs()));
         $query->executeQuery();
         return true;
     }
@@ -134,11 +136,22 @@ class DBALProductRepository implements ProductRepository
             ->innerJoin('p', 'opinions', 'o', 'o.product_id = p.id')
             ->leftJoin('p', 'categories', 'c', 'c.id = p.category_id')
             ->where("o.username = (:username)")
+            ->andWhere('deleted = 0')
             ->setParameter('username', $username->getValue())
             ->GroupBy('p.id');
 
         $query->executeQuery();
         $rawResult = $query->fetchAllAssociative();
         return ProductCollectionFactory::CreateFromArray($rawResult);
+    }
+
+    public function deleteProduct(ProductId $productId): void
+    {
+        $query = $this->connection->createQueryBuilder()
+            ->update('products')
+            ->set('deleted', 1)
+            ->where('id = :id')
+            ->setParameter('id', $productId->getValue());
+        $query->executeQuery();
     }
 }

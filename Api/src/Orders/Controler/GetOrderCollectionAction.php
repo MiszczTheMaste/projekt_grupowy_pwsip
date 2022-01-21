@@ -25,7 +25,6 @@ class GetOrderCollectionAction
             $username = $this->security->getUser()->getUserIdentifier();
             $orderCollection = $this->handler->handle($username);
         } catch (\Throwable $th) {
-            print_r($th->getMessage());
             return new JsonResponse(["message" => "Nie znaleziono zamówień"], Response::HTTP_NOT_FOUND);
         }
         return new JsonResponse(["orders" => $orderCollection], Response::HTTP_CREATED);

@@ -39,6 +39,15 @@ services:
 
     App\Products\QueryHandler\GetRatedProductsHandler:
         arguments:
+            $repository: '@App\Products\Repository\DBALProductRepository'    
+            
+    App\Products\Controller\DeleteProductAction:
+        public: true
+        arguments:
+            $handler: '@App\Products\CommandHandler\DeleteProductHandler'
+
+    App\Products\CommandHandler\DeleteProductHandler:
+        arguments:
             $repository: '@App\Products\Repository\DBALProductRepository'
 
     App\Products\Controller\GetRatedProductsAction:

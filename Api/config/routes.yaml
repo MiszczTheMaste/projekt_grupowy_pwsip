@@ -16,6 +16,10 @@ post_product:
     path: /api/product
     controller: App\Products\Controller\PostProductAction
     methods: [POST]
+delete_product:
+    path: /api/product/{id}
+    controller: App\Products\Controller\DeleteProductAction
+    methods: [DELETE]
 generate_jwt_token:
     path: /api/auth/token
     methods: [POST]    
