@@ -2,7 +2,7 @@
 Jarosław Murawski, Michał Runo, Mariusz Wojsz
 
 ## Opis projektu
-Prosty sklep internetowy [dopisać coś tutaj więcej]
+Prosty sklep internetowy
 
 ## Technologia
 
@@ -18,11 +18,6 @@ MySQL 10.4
 ```
 JavaScript
 Vue.js
-...?
+HTML
+CSS
 ```
-
-## Opis działania??
-
-## Instrukcja
-### Wymagania 
-### Instalacja
