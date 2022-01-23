@@ -1,7 +1,7 @@
 <template>
- <div class="basket-content">
+ <div class="basket-content" v-if="loadInits">
 
-   <div class="basket-left">
+   <div class="basket-left" v-if="!template">
      <div class="product-title">Lista produktów w koszyku</div>
      <hr class="title-re">
 
@@ -10,10 +10,19 @@
        <BasketItem :product="item" :key="item.id" @removeOrder="removeItem"/>
      </div>
      </transition-group>
-
    </div>
 
-  <div class="basket-right">
+
+   <div class="basket-left" v-if="template === 'payment'">
+      <Order :itemList = 'itemList'></Order>
+   </div>
+
+   <div class="basket-left" v-if="template==='blik'">
+     <Blik :itemList = 'itemList' :price="totalPrice.totalWithVat" v-if="template === 'blik'"></Blik>
+   </div>
+
+
+   <div class="basket-right" v-if="template !== 'blik'">
 
     <div class="product-title">Wartość koszyka</div>
     <hr class="title-re">
@@ -31,28 +40,46 @@
       Całkowita suma brutto: <b>{{totalPrice.totalWithVat}}zł</b>  (23% VAT)
     </div>
 
-    <button class="btn-blue buy-now">Zapłać teraz</button>
+    <button class="buy-now" v-if="!template" @click="checkSession">
+      <div v-if="!sessionStatus">Złóż zamównie</div>
+      <div v-if="sessionStatus"><i class="fas fa-spinner"></i></div>
+    </button>
+
+    <button class="buy-now" v-if="template" @click="goToBlik">Opłać zamówienie</button>
   </div>
 
  </div>
+
+  <transition name="fade">
+    <Loader v-if="!loadInits" key="homeLoader"></Loader>
+  </transition>
 
 </template>
 
 <script>
 import BasketItem from "../components/BasketItem";
+import Loader from "../components/Loader";
+import Order from "../components/Order";
+import Blik from "../components/Blik";
+import env from "../assets/env";
+
 
 export default {
   name: "Basket",
-  components: {BasketItem},
+  components: {BasketItem,Loader,Order,Blik},
   data() {
     return {
-      itemList: [
-        {id:3,name:'Monitor AOC G24C',price:2000,description:'Opis produktu',image:'https://i.imgur.com/KX85BtQ.png',stars:5},
-        {id:4,name:'Podkładka StealSeries',price:2000,description:'Podkładka opis',image:'https://i.imgur.com/8T9iGk6.png',stars:1},
-        {id:5,name:'Klawiatura X',price:2000,description:'Opis klawiatura',image:'https://i.imgur.com/i3lvSXe.png',stars:3},
-        {id:6,name:'Monitor',price:2000,description:'Opis produktu',image:'https://i.imgur.com/bvduK5A.png',stars:2},
-      ]
+      sessionStatus: false,
+      session : localStorage.getItem('jwt'),
+      username : null,
+      template: '',
+      storage : this.getStorage('basket-storage') ? JSON.parse(localStorage.getItem('basket-storage')) : null,
+      loadInits :false,
+      itemList: []
     }
+  },
+  beforeMount() {
+    this.loadBasketItems()
   },
   computed: {
     totalPrice() {
@@ -66,9 +93,67 @@ export default {
   },
   methods: {
     removeItem({productID}) {
-      const removeItemIndex = this.itemList.findIndex(item => item.id === productID);
-      this.itemList.splice(removeItemIndex,1)
-    }
+      const itemIndex = this.itemList.findIndex(item => item.id === productID);
+      const storage = this.getStorage('basket-storage');
+
+      if(storage.includes(productID)) {
+        this.$alert('Usunięto z koszyka!','success')
+        storage.splice(storage.indexOf(productID),1);
+        this.setStorage('basket-storage',storage);
+      }
+
+      this.$emit('changeBasketAmount',-1);
+      this.itemList.splice(itemIndex,1)
+    },
+
+    setStorage(key,value) {
+      localStorage.setItem(key,JSON.stringify(value))
+    },
+
+    getStorage(key) {
+      if(!localStorage.getItem(key)) this.setStorage(key,[])
+      return JSON.parse(localStorage.getItem(key));
+    },
+
+    async loadBasketItems() {
+      const response = await axios.get(`${env.someItems}?products=${JSON.stringify(this.storage)}`)
+      this.itemList = response.data;
+      this.loadInits = true;
+    },
+
+    goToBlik() {
+      if(this.itemList.length === 0)  {
+        this.template = '';
+        return this.$alert("Twój koszyk jest pusty!", 'error',)
+      }
+
+      this.template='blik'
+    },
+
+    async checkSession() {
+      if(this.itemList.length === 0)  {
+        return this.$alert("Twój koszyk jest pusty!", 'error',)
+      }
+
+      if(this.sessionStatus) return;
+      this.sessionStatus = true;
+
+      const response = await axios(
+          {
+            url: env.session,
+            method: "post",
+            headers: {'Authorization': `Bearer ${this.session}`}
+          }).catch((error) => {
+        if (error.response) {
+          localStorage.removeItem('jwt');
+          return this.$alert("Nie jesteś zalogowany, zaloguj się aby zakupić przedmioty!", 'error',true,5000)
+        }
+      });
+
+      this.sessionStatus = false;
+      if(!response) return;
+      this.template = 'payment';
+    },
   },
 }
 </script>
@@ -76,23 +161,28 @@ export default {
 <style>
 
 
-.removeItem-enter-active {
-  transform: scale(1);
-  opacity: 0;
-  transition: 1s;
-}
-
 .removeItem-leave-active {
   transform: scale(0.8);
   opacity: 0;
-  transition: 1s;
+  transition: 0.5s;
 }
 
 .basket-item div,.basket-item i,.basket-item img{
   padding: 10px;
 }
+.buy-now{
+  background: rgb(58 130 239);
+  border: 2px solid rgb(58 130 255);
+  border-radius: 8px;
+  padding: 8px;
+  color: #23232d;
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: pointer;
+}
 
 .basket-item {
+  background-color: #1c1c24;
   display: flex;
   justify-items: center;
   align-items: center;

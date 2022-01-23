@@ -1,4 +1,5 @@
 <template>
+  <div class="product-box" v-if="loadInits">
   <a @click="$router.go(-1)" id="backButton"><i class="fas fa-long-arrow-alt-left"></i></a>
 
   <div class="product-info">
@@ -20,32 +21,33 @@
         <hr class="title-re">
 
         <div class="product-full-name">
-          Karta graficzna Gigabyte GeForce GTX 1660Ti OC 6GB GDDR6 (GV-N166TOC-6GD)
+          {{product.name}}
         </div>
 
         <div class="item-rate rate" v-html="rateHtml"></div>
 
         <div class="desc-lane">
-          Długość karty: <b>265 mm</b>
+          Cena przedmiotu: <b>{{product.price}}zł</b>
         </div>
 
         <div class="desc-lane">
-          Ilość pamięci RAM: <b>6 GB</b>
+          Pozdostało sztuk: <b>{{product.stock}}</b>
         </div>
 
         <div class="desc-lane">
-          Rodzaj chipsetu: <b>GeForce GTX 1660 Ti</b>
+          Ocena użytkowników: <b>{{product.rating.toFixed(2)}}</b>
         </div>
 
         <div class="desc-lane">
-          Taktowanie rdzenia w trybie boost: <b>1800 MHz</b>
+          Czas dostawy: <b>2 dni  - 7 dni</b>
         </div>
 
         <div class="desc-lane">
-          Łączenie kart: <b>Nie</b>
+          Opis produktu: <b>{{product.description}}</b>
         </div>
 
-        <button class="btn-blue" id="addToBacket">Dodaj do koszyka</button>
+        <button class="btn-blue" id="addToBasket" @click="addToBasket" v-if="product.stock !== 0">Dodaj do koszyka</button>
+        <button class="btn-blue" id="sold" disabled v-if="product.stock == 0">Produkt wyprzedany!</button>
       </div>
 
     </div>
@@ -58,62 +60,52 @@
 
     <div class="content-desc">
 
-      <div class="desc-box">
-        <div class="desc-key">Procesor</div>
-        <div class="desc-value">MediaTek Dimensity 1200 (1 rdzeń, 3,0 GHz, A78 + 3 rdzenie, 2,6 GHz, A78 + 4 rdzenie, 2.0 GHz, A55</div>
+      <div class="desc-box" v-for="(item,index) in product.specs">
+        <div class="desc-key">{{index}}</div>
+        <div class="desc-value">{{product.specs[index]}}</div>
       </div>
-
-      <div class="desc-box">
-        <div class="desc-key">Procesor</div>
-        <div class="desc-value">MediaTek Dimensity 1200 (1 rdzeń, 3,0 GHz, A78 + 3 rdzenie, 2,6 GHz, A78 + 4 rdzenie, 2.0 GHz, A55</div>
-      </div>
-
-      <div class="desc-box">
-        <div class="desc-key">Procesor</div>
-        <div class="desc-value">MediaTek Dimensity 1200 (1 rdzeń, 3,0 GHz, A78 + 3 rdzenie, 2,6 GHz, A78 + 4 rdzenie, 2.0 GHz, A55</div>
-      </div>
-
-      <div class="desc-box">
-        <div class="desc-key">Procesor</div>
-        <div class="desc-value">MediaTek Dimensity 1200 (1 rdzeń, 3,0 GHz, A78 + 3 rdzenie, 2,6 GHz, A78 + 4 rdzenie, 2.0 GHz, A55</div>
-      </div>
-
-
-      <div class="desc-box">
-        <div class="desc-key">Procesor</div>
-        <div class="desc-value">MediaTek Dimensity 1200 (1 rdzeń, 3,0 GHz, A78 + 3 rdzenie, 2,6 GHz, A78 + 4 rdzenie, 2.0 GHz, A55</div>
-      </div>
-
 
     </div>
 
   </div>
+  </div>
+
+  <transition name="fade">
+    <Loader v-if="!loadInits" key="productLoader"></Loader>
+  </transition>
 
 </template>
 
 <script>
+const env = require('../assets/env');
+import Loader from "../components/Loader";
+
 export default {
   name: "Product",
+  components: {Loader},
   data() {
     return {
-      productID: this.$route.params.id,
+      loadInits : false,
+      productID: +this.$route.params.id,
       product : null,
       rateHtml: ``,
-      itemList: [
-        {id:1,name:'Karta graficzna',price:2000,description:'Karta graficzna opis',image:'https://i.imgur.com/9SkMSGn.png',stars:4},
-        {id:3,name:'Monitor AOC G24C',price:2000,description:'Opis produktu',image:'https://i.imgur.com/KX85BtQ.png',stars:5},
-        {id:4,name:'Podkładka StealSeries',price:2000,description:'Podkładka opis',image:'https://i.imgur.com/8T9iGk6.png',stars:1},
-        {id:5,name:'Klawiatura X',price:2000,description:'Opis klawiatura',image:'https://i.imgur.com/i3lvSXe.png',stars:3},
-        {id:6,name:'Monitor',price:2000,description:'Opis produktu',image:'https://i.imgur.com/bvduK5A.png',stars:2},
-        {id:7,name:'Iphone X',price:2000,description:'Opis tele',image:'https://i.imgur.com/pf0SEL2.png',stars:5},
-        {id:8,name:'Myszka ',price:2000,description:'Opis mysz',image:'https://i.imgur.com/vKHAHJY.png',stars:3},
-        {id:10,name:'Kamerka Logitech',price:12000,description:'kamerka',image:'https://i.imgur.com/Lwxa8Jo.png',stars:5}
-      ]
     }
   },
+  created() {
+    this.loadProduct();
+  },
   methods: {
+    setStorage(key,value) {
+      localStorage.setItem(key,JSON.stringify(value))
+    },
+
+    getStorage(key) {
+      if(!localStorage.getItem(key)) this.setStorage(key,[])
+      return JSON.parse(localStorage.getItem(key));
+    },
+
     calculateRate() {
-      let stars = this.product.stars;
+      let stars = this.product.rating;
       for(let i=0;i<=4;i++) {
         if(stars>0) {
           this.rateHtml += ` <span class="fa fa-star checked"></span>`
@@ -123,16 +115,37 @@ export default {
 
         this.rateHtml += ` <span class="fa fa-star"></span>`
       }
-    }
-  },
-  created() {
-      this.product = this.itemList.find((el)=> {return el.id===+this.productID});
+    },
+
+    async loadProduct() {
+      const response = await axios.get(`${env.product}/${this.productID}`);
+      this.product = response.data;
       this.calculateRate();
+      this.loadInits = true;
+    },
+
+    addToBasket() {
+      const storage = this.getStorage('basket-storage');
+
+      if(!storage.includes(this.productID)) {
+        storage.push(this.productID)
+        this.$alert('Dodano do koszyka!','success')
+        this.setStorage('basket-storage',storage);
+        this.$emit('changeBasketAmount',1);
+      }else {
+        this.$alert('Przedmiot jest już w koszyku!','error')
+      }
+
+    }
   },
 }
 </script>
 
 <style>
+
+#addToBasket {
+  margin-top: 20px;
+}
 
 .desc-box:nth-child(2n+1) {
   background: hsl(240deg 8% 23% / 32%);
@@ -144,10 +157,11 @@ export default {
 
 .desc-box {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;;
   padding: 15px;
   align-items: center;
   justify-content: space-evenly;
+  grid-gap: 10px;
 }
 
 .desc-key {
@@ -225,6 +239,9 @@ export default {
   width: 100%;
 }
 
+#sold {
+  margin-top: 25px;
+}
 .product-info {
   display: flex;
   justify-content: space-around;

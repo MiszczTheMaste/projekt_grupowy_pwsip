@@ -4,6 +4,7 @@ import Form from "../views/login-form/Form";
 import Basket from "../views/Basket";
 import Fav from "../views/Fav";
 import Product from '../views/Product';
+import Account from "../views/Account";
 
 const routes = [
   {
@@ -31,6 +32,11 @@ const routes = [
     path: "/products/:id",
     name: "Products",
     component: Product,
+  },
+  {
+    path: "/account",
+    name: "Account",
+    component: Account,
   },
 ];
 
